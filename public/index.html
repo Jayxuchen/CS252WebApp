@@ -1,68 +1,86 @@
 <!doctype html>
 <html>
   <head>
-    <title>typeracer</title>
+    <title>TypingRacer</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
+    h1{font-size: 50px}
+    h2{font-size:25px}
+      * {color:#DEE5F4;outline:none; margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px  Arial; background-color: #2171D3}
       .winnerDisplay { font: 24px Arial; background: green; display: none;}
       .loserDisplay { font: 24px Arial; background: red; display: none;}
-      .typingArea { display: inline-block; width: 49.5%; }
-      .titles { display: inline-block; width: 49.5%;}
-      form { background: #000; padding: 3px; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 100%; margin-right: .5%; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      .titles { margin-bottom: 5px;}
+      .container4  {
+          height:50%;
+          width:400px;
+            margin: 0;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%)
+      }
+      form {  bottom: 0;}
+      form input { padding: 10px; width:100%; border-color: #f47142;border-style:solid;border-width:3px; border-radius: 5px;color:#000;font-size:20px}
+      form textarea{ padding: 10px; width:100%; border-color: #f47142;border-width: 3px;resize:vertical border-style:solid; border-radius: 5px;font-size:15px}
+      fieldset{border-style:none;}
+
     </style>
   </head>
   <body>
-    <h1 id="winnerDisplay" class="winnerDisplay">
+      <div style="text-align:center;margin-top:10px">
+      <h1>Typing Racer</h1>
+  </div>
+    <h2 id="winnerDisplay" class="winnerDisplay">
       WINNER!!
-    </h1>
-    <h1 id="loserDisplay" class="loserDisplay">
+    </h2>
+    <h2 id="loserDisplay" class="loserDisplay">
       LOSER!!
-    </h1>
+    </h2>
     <br>
-    <div class="titles">
-      <h1>
-        You
-      </h1>
-    </div>
-    <div class="titles">
-      <h1>
-        Opponent
-      </h1>
-    </div>
-    <div class="typingArea">
-      <form>
-        <fieldset disabled>  
-          <input id="toMatch" autocomplete="off" />
-        </fieldset>
-      </form>
-      <form>
-        <input id="yourText" autocomplete="off" />
-      </form>
-    </div>
-    <div class="typingArea">
-      <form>
-        <fieldset disabled>  
-          <input id="toMatchOpponent" autocomplete="off" />
-        </fieldset>
-      </form>
-      <form>
-        <fieldset disabled>
-          <input id="opponentText" autocomplete="off"/>
-        </fieldset>
-      </form>
-    </div>
+    <div class="container4">
+        <div class="titles">
+            <h2>
+                Type This:
+            </h2>
+
+        </div>
+          <form>
+            <fieldset disabled>
+              <textarea id="toMatch"/></textarea>
+            </fieldset>
+          </form>
+
+          <br><br>
+          <div class="titles">
+              <h2>
+                  You:
+              </h2>
+
+          </div>
+          <form>
+            <input id="yourText" autocomplete="off" />
+        </form>
+        <div class="opponenttypingArea">
+            <br><br>
+            <div class="titles">
+                <h2>
+                    Opponent:
+                </h2>
+            </div>
+          <form>
+            <fieldset disabled>
+              <input id="opponentText" autocomplete="off"/>
+            </fieldset>
+          </form>
+        </div>
+</div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var toMatch = document.getElementById('toMatch');
       toMatch.value = 'Waiting on opponent....';
-      toMatch = document.getElementById('toMatchOpponent');
-      toMatch.value = 'Waiting on opponent....';
+
       var socket = io();
       socket.on('chat message', function(msg){
         var opponentText = document.getElementById('opponentText');
@@ -77,8 +95,7 @@
       socket.on('start', function(msg){
         toMatch = document.getElementById('toMatch');
         toMatch.value = msg;
-        toMatch = document.getElementById('toMatchOpponent');
-        toMatch.value = msg;
+
       });
 
       function sendMessage() {
