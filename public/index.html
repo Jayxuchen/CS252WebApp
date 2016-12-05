@@ -63,7 +63,7 @@
       toMatch.value = 'match this text';
       toMatch = document.getElementById('toMatchOpponent');
       toMatch.value = 'match this text';
-      var socket = io('http://localhost');
+      var socket = io();
       socket.on('chat message', function(msg){
         var opponentText = document.getElementById('opponentText');
         opponentText.value = msg;
