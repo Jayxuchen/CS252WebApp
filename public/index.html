@@ -5,22 +5,38 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      .typingArea { display:inline-block; width: 49.5%; }
+      form { background: #000; padding: 3px; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 100%; margin-right: .5%; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="typingArea">
+      <form action="">
+        <input id="toMatch" autocomplete="off" />
+      </form>
+      <form action="">
+        <input id="m" autocomplete="off" />
+      </form>
+    </div>
+    <div class="typingArea">
+      <form action="">
+        <input id="toMatchOpponent" autocomplete="off" />
+      </form>
+      <form action="">
+        <input id="m" autocomplete="off" />
+      </form>
+    </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      var toMatch = document.getElementById('toMatch');
+      toMatch.value = 'MATCH THIS TEXT AS FAST AS YOU CAN';
+      toMatch = document.getElementById('toMatchOpponent');
+      toMatch.value = 'MATCH THIS TEXT AS FAST AS YOU CAN';
       var socket = io();
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
