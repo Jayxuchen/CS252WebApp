@@ -6,6 +6,7 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       .winnerDisplay { font: 24px Arial; background: green; display: none;}
+      .loserDisplay { font: 24px Arial; background: red; display: none;}
       .typingArea { display: inline-block; width: 49.5%; }
       .titles { display: inline-block; width: 49.5%;}
       form { background: #000; padding: 3px; bottom: 0; width: 100%; }
@@ -18,6 +19,9 @@
   <body>
     <h1 id="winnerDisplay" class="winnerDisplay">
       WINNER!!
+    </h1>
+    <h1 id="loserDisplay" class="loserDisplay">
+      LOSER!!
     </h1>
     <br>
     <div class="titles">
@@ -59,13 +63,15 @@
       toMatch.value = 'match this text';
       toMatch = document.getElementById('toMatchOpponent');
       toMatch.value = 'match this text';
-      var socket = io();
+      var socket = io('http://localhost');
       socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+        var opponentText = document.getElementById('opponentText');
+        opponentText.value = msg;
       });
 
-      socket.on('winner', function(msg){
-
+      socket.on('winner', function(){
+        var loserDisplay = document.getElementById('loserDisplay');
+        loserDisplay.style.display = 'inline';
       });
 
       function sendMessage() {
