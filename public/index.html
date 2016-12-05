@@ -68,6 +68,11 @@
           </form>
 
           <br><br>
+          <div class = "titles">
+              <h2>
+              <label id ="mistakes" >Mistakes: 0</label>
+            </h2>
+          </div>
           <div class="titles">
               <h2>
                   You:
@@ -96,6 +101,8 @@
     <script>
       var hasStarted = false;
       var toMatch = document.getElementById('toMatch');
+      var previousString = "";
+      var mistakes=0;
       toMatch.value = 'Waiting on opponent....';
 
       var socket = io();
@@ -125,9 +132,10 @@
       function sendMessage() {
         if(hasStarted)
         {
-          socket.emit('chat message', $('#yourText').val());
-          var toMatch = document.getElementById('toMatch');
-          var yourText = document.getElementById('yourText');
+
+            socket.emit('chat message', checkInput());
+            var toMatch = document.getElementById('toMatch');
+            var yourText = document.getElementById('yourText');
           if(yourText.value == toMatch.value)
           {
             winner();
@@ -144,6 +152,26 @@
         //Have to send winner command with parameter of the specific room we are in and which user won
         socket.emit('winner', '');
         // document.getElementById('yourText').disabled = true;
+      }
+      function checkInput(){
+          var matchText = document.getElementById('toMatch').value;
+          var yourText = document.getElementById('yourText').value;
+          var length = yourText.length;
+          if(yourText.localeCompare(matchText.substring(0,length))!=0)
+          {
+              document.getElementById('yourText').value=previousString;
+              document.getElementById('yourText').style="color:#EF5E53";
+              mistakes=mistakes+1;
+              document.getElementById('mistakes').innerHTML='Mistakes: '+mistakes;
+              document.getElementById('mistakes').style="color:#FF6363;";
+              return previousString;
+          }
+          else{
+              document.getElementById('yourText').style="color:black";
+               document.getElementById('mistakes').style="color:#FF8966;";
+              previousString=yourText;
+              return matchText;
+          }
       }
     //   function highlightText(){
     //      var matchText = document.getElementById('toMatch');
@@ -168,7 +196,6 @@
 // }
       var e = document.getElementById("yourText");
       e.oninput = sendMessage;
-    //   e.oninput = highlightText;
       toMatch = document.getElementById('toMatch');
       toMatch.oninput = autoResize;
       function autoResize()
