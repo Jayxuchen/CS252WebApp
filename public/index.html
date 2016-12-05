@@ -5,6 +5,7 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
+      .winnerDisplay { font: 24px Arial; background: green; display: none;}
       .typingArea { display: inline-block; width: 49.5%; }
       .titles { display: inline-block; width: 49.5%;}
       form { background: #000; padding: 3px; bottom: 0; width: 100%; }
@@ -15,6 +16,10 @@
     </style>
   </head>
   <body>
+    <h1 id="winnerDisplay" class="winnerDisplay">
+      WINNER!!
+    </h1>
+    <br>
     <div class="titles">
       <h1>
         You
@@ -33,7 +38,7 @@
         </fieldset>
       </form>
       <form action="">
-        <input id="m" autocomplete="off" />
+        <input id="yourText" autocomplete="off" />
       </form>
     </div>
     <div class="typingArea">
@@ -43,27 +48,44 @@
         </fieldset>
       </form>
       <form action="">
-        <input id="m" autocomplete="off" />
+        <input id="opponentText" autocomplete="off" />
       </form>
     </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var toMatch = document.getElementById('toMatch');
-      toMatch.value = 'MATCH THIS TEXT AS FAST AS YOU CAN';
+      toMatch.value = 'match this text';
       toMatch = document.getElementById('toMatchOpponent');
-      toMatch.value = 'MATCH THIS TEXT AS FAST AS YOU CAN';
-      var socket = io();
-      socket.on('chat message', function(msg){
+      toMatch.value = 'match this text';
+      //var socket = io();
+      /*socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
 
+      socket.on('winner', function(msg){
+
+      });*/
+
       function sendMessage() {
-        socket.emit('chat message', $('#m').val());
-        return false;
+        //socket.emit('chat message', $('#yourText').val());
+        var toMatch = document.getElementById('toMatch');
+        var yourText = document.getElementById('yourText');
+        console.log(yourText.val);
+        if(yourText.value == toMatch.value)
+        {
+          winner();
+        }
       }
 
-      var e = document.getElementById('m');
+      function winner() {
+        var winnerDisplay = document.getElementById('winnerDisplay');
+        winnerDisplay.style.display = 'inline';
+        //Have to send winner command with parameter of the specific room we are in and which user won
+        //socket.emit('winner', '');
+      }
+
+      var e = document.getElementById("yourText");
       e.oninput = sendMessage;
     </script>
   </body>
