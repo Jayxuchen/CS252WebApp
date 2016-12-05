@@ -8,14 +8,21 @@ http.listen(appEnv.port || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
-
+users = [];
+var roomnumber = 1;
 
 io.on('connection', function(socket){
+  if(io.nsps['/'].adapter.rooms['room-'+roomnumber] && Object.keys(io.nsps['/'].adapter.rooms['room-'+roomnumber]).length > 1){
+  	roomnumber++;
+  }
+  socket.join('room-'+roomnumber);
+  console.log('room-'+roomnumber);
+
   socket.on('chat message', function(msg){
-    socket.broadcast.emit('chat message', msg);
+    socket.broadcast.to(socket.rooms[socket.rooms.length - 1]).emit('chat message', msg);
   });
 
   socket.on('winner', function(){
-  	socket.broadcast.emit('winner', '');
+  	socket.broadcas.to(socket.rooms[socket.rooms.length - 1]).emit('winner', '');
   });
 });
