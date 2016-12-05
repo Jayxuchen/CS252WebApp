@@ -13,9 +13,12 @@ var roomnumber = 1;
 
 io.on('connection', function(socket){
   if(io.nsps['/'].adapter.rooms['room-'+roomnumber] && Object.keys(io.nsps['/'].adapter.rooms['room-'+roomnumber]).length > 1){
-  	roomnumber++;
+    roomnumber++;
   }
   socket.join('room-'+roomnumber);
+  if(io.nsps['/'].adapter.rooms['room-'+roomnumber] && Object.keys(io.nsps['/'].adapter.rooms['room-'+roomnumber]).length > 1){
+    io.in('room-'+roomnumber).emit('start', 'type this please');
+  }
   console.log('room-'+roomnumber);
 
   socket.on('chat message', function(msg){
@@ -23,6 +26,6 @@ io.on('connection', function(socket){
   });
 
   socket.on('winner', function(){
-  	socket.broadcast.to(socket.rooms[socket.rooms.length - 1]).emit('winner', '');
+    socket.broadcast.to(socket.rooms[socket.rooms.length - 1]).emit('winner', '');
   });
 });

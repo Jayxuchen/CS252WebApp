@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>typeracer/title>
+    <title>typeracer</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
@@ -60,9 +60,9 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var toMatch = document.getElementById('toMatch');
-      toMatch.value = 'match this text';
+      toMatch.value = 'Waiting on opponent....';
       toMatch = document.getElementById('toMatchOpponent');
-      toMatch.value = 'match this text';
+      toMatch.value = 'Waiting on opponent....';
       var socket = io();
       socket.on('chat message', function(msg){
         var opponentText = document.getElementById('opponentText');
@@ -72,6 +72,13 @@
       socket.on('winner', function(){
         var loserDisplay = document.getElementById('loserDisplay');
         loserDisplay.style.display = 'inline';
+      });
+
+      socket.on('start', function(msg){
+        toMatch = document.getElementById('toMatch');
+        toMatch.value = msg;
+        toMatch = document.getElementById('toMatchOpponent');
+        toMatch.value = msg;
       });
 
       function sendMessage() {
