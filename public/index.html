@@ -5,14 +5,14 @@
     <style>
     h1{font-size: 50px}
     h2{font-size:25px}
-      * {color:#000000;outline:none; margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px  Arial; background-color: #2171D3}
+      * {color:#FF8966;outline:none; margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px  Arial; background-color: #477CBC}
       .winnerDisplay { font: 24px Arial; background: green; display: none;}
       .loserDisplay { font: 24px Arial; background: red; display: none;}
       .titles { margin-bottom: 5px;}
       .container4  {
           height:50%;
-          width:400px;
+          width:600px;
             margin: 0;
             position: absolute;
             top: 40%;
@@ -21,22 +21,40 @@
             transform: translate(-50%, -50%)
       }
       form {  bottom: 0;}
-      form input { padding: 10px; width:100%; border-color: #f47142;border-style:solid;border-width:3px; border-radius: 5px;color:#000;font-size:20px}
-      form textarea{ padding: 10px; width:100%; border-color: #f47142;border-width: 3px;resize:vertical border-style:solid; border-radius: 5px;font-size:15px}
+      form input {
+           padding: 10px;
+            width:100%;
+            border-color: #f47142;
+            border-style:solid;
+            border-width:3px;
+            border-radius: 5px;
+            color:#000;
+            font-size:20px;
+       }
+      form textarea{ color:#000000;
+          padding: 10px;
+          width:100%;
+          border-color: #f47142;
+          border-width: 3px;
+          height:200px;resize:vertical;
+          border-style:solid;
+          border-radius: 5px;
+          font-size:15px;
+      }
       fieldset{border-style:none;}
-
+      .hilite {color: blue;}
     </style>
   </head>
   <body>
       <div style="text-align:center;margin-top:10px">
       <h1>Typing Racer</h1>
   </div>
-    <h2 id="winnerDisplay" class="winnerDisplay">
+    <!-- <h2 id="winnerDisplay" class="winnerDisplay">
       WINNER!!
     </h2>
     <h2 id="loserDisplay" class="loserDisplay">
       LOSER!!
-    </h2>
+    </h2> -->
     <br>
     <div class="container4">
         <div class="titles">
@@ -46,7 +64,7 @@
 
         </div>
           <form>
-              <textarea id="toMatch"/></textarea>
+              <textarea  disabled id="toMatch"/></textarea>
           </form>
 
           <br><br>
@@ -57,7 +75,7 @@
 
           </div>
           <form>
-            <input id="yourText" autocomplete="off" disabled="true" />
+            <input id="yourText" autocomplete="off" placeholder="type here..." disabled="true" />
         </form>
         <div class="opponenttypingArea">
             <br><br>
@@ -68,7 +86,7 @@
             </div>
           <form>
             <fieldset disabled>
-              <input id="opponentText" autocomplete="off"/>
+              <input id="opponentText" placeholder="Opponent's typing" autocomplete="off"/>
             </fieldset>
           </form>
         </div>
@@ -87,9 +105,12 @@
       });
 
       socket.on('winner', function(){
-        var loserDisplay = document.getElementById('loserDisplay');
-        loserDisplay.style.display = 'inline';
-        document.getElementById('yourText').disabled = true;
+        // var loserDisplay = document.getElementById('loserDisplay');
+        // loserDisplay.style.display = 'inline';
+        // document.getElementById('yourText').disabled = true;
+        var text = document.getElementById('toMatch');
+        text.value ="YOU LOSE!";
+        text.style="font-size:60px;weight:bold;color:#BC4747";
       });
 
       socket.on('start', function(msg){
@@ -115,23 +136,46 @@
       }
 
       function winner() {
-        var winnerDisplay = document.getElementById('winnerDisplay');
-        winnerDisplay.style.display = 'inline';
+        // var winnerDisplay = document.getElementById('winnerDisplay');
+        // winnerDisplay.style.display = 'inline';
+        var text = document.getElementById('toMatch');
+        text.value ="YOU WIN!";
+        text.style="font-size:60px;weight:bold;color:#00C109";
         //Have to send winner command with parameter of the specific room we are in and which user won
         socket.emit('winner', '');
-        document.getElementById('yourText').disabled = true;
+        // document.getElementById('yourText').disabled = true;
       }
-
+    //   function highlightText(){
+    //      var matchText = document.getElementById('toMatch');
+    //      var yourText = document.getElementById('yourText');
+    //      highlight(0,4);
+    //   }
+//       function highlight( start, end) {
+//         var item = document.getElementById('toMatch').value;
+//         alert(item);
+//         // var str = item.data("origHTML");
+//         // if (!str) {
+//         //     str = item.html();
+//         //     item.data("origHTML", str);
+//         // }
+//         str = str.substr(0, start) +
+//         '<span class="hilite">' +
+//         str.substr(start, end - start + 1) +
+//         '</span>' +
+//         str.substr(end + 1);
+//         document.getElementById('toMatch').value=str;
+//     // item.html(str);
+// }
       var e = document.getElementById("yourText");
       e.oninput = sendMessage;
-
+    //   e.oninput = highlightText;
       toMatch = document.getElementById('toMatch');
       toMatch.oninput = autoResize;
       function autoResize()
       {
         toMatch.style.height = 'auto';
         toMatch.style.height = toMatch.scrollHeight+'px';
-      } 
+      }
 
     </script>
   </body>
