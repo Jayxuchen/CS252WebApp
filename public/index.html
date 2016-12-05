@@ -108,9 +108,12 @@
         // var loserDisplay = document.getElementById('loserDisplay');
         // loserDisplay.style.display = 'inline';
         // document.getElementById('yourText').disabled = true;
-        var text = document.getElementById('toMatch');
-        text.value ="YOU LOSE!";
-        text.style="font-size:60px;weight:bold;color:#BC4747";
+        if(hasStarted)
+        {
+          var text = document.getElementById('toMatch');
+          text.value ="YOU LOSE!";
+          text.style="font-size:60px;weight:bold;color:#BC4747";
+        }
       });
 
       socket.on('start', function(msg){
@@ -136,6 +139,7 @@
       }
 
       function winner() {
+        hasStarted = false;
         // var winnerDisplay = document.getElementById('winnerDisplay');
         // winnerDisplay.style.display = 'inline';
         var text = document.getElementById('toMatch');
