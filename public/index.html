@@ -5,7 +5,8 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      .typingArea { display:inline-block; width: 49.5%; }
+      .typingArea { display: inline-block; width: 49.5%; }
+      .titles { display: inline-block; width: 49.5%;}
       form { background: #000; padding: 3px; bottom: 0; width: 100%; }
       form input { border: 0; padding: 10px; width: 100%; margin-right: .5%; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
@@ -14,9 +15,22 @@
     </style>
   </head>
   <body>
+    <div class="titles">
+      <h1>
+        You
+      </h1>
+    </div>
+    <div class="titles">
+      <h1>
+        Opponent
+      </h1>
+    </div>
+    <br>
     <div class="typingArea">
       <form action="">
-        <input id="toMatch" autocomplete="off" />
+        <fieldset disabled>  
+          <input id="toMatch" autocomplete="off" />
+        </fieldset>
       </form>
       <form action="">
         <input id="m" autocomplete="off" />
@@ -24,7 +38,9 @@
     </div>
     <div class="typingArea">
       <form action="">
-        <input id="toMatchOpponent" autocomplete="off" />
+        <fieldset disabled>  
+          <input id="toMatchOpponent" autocomplete="off" />
+        </fieldset>
       </form>
       <form action="">
         <input id="m" autocomplete="off" />
