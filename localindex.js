@@ -21,7 +21,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('winner', function(){
-  	socket.broadcas.to(socket.rooms[socket.rooms.length - 1]).emit('winner', '');
+  	socket.broadcast.to(socket.rooms[socket.rooms.length - 1]).emit('winner', '');
   });
 });
 
