@@ -30,25 +30,26 @@
         Opponent
       </h1>
     </div>
-    <br>
     <div class="typingArea">
-      <form action="">
+      <form>
         <fieldset disabled>  
           <input id="toMatch" autocomplete="off" />
         </fieldset>
       </form>
-      <form action="">
+      <form>
         <input id="yourText" autocomplete="off" />
       </form>
     </div>
     <div class="typingArea">
-      <form action="">
+      <form>
         <fieldset disabled>  
           <input id="toMatchOpponent" autocomplete="off" />
         </fieldset>
       </form>
-      <form action="">
-        <input id="opponentText" autocomplete="off" />
+      <form>
+        <fieldset disabled>
+          <input id="opponentText" autocomplete="off"/>
+        </fieldset>
       </form>
     </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -58,20 +59,19 @@
       toMatch.value = 'match this text';
       toMatch = document.getElementById('toMatchOpponent');
       toMatch.value = 'match this text';
-      //var socket = io();
-      /*socket.on('chat message', function(msg){
+      var socket = io();
+      socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
 
       socket.on('winner', function(msg){
 
-      });*/
+      });
 
       function sendMessage() {
-        //socket.emit('chat message', $('#yourText').val());
+        socket.emit('chat message', $('#yourText').val());
         var toMatch = document.getElementById('toMatch');
         var yourText = document.getElementById('yourText');
-        console.log(yourText.val);
         if(yourText.value == toMatch.value)
         {
           winner();
@@ -82,7 +82,7 @@
         var winnerDisplay = document.getElementById('winnerDisplay');
         winnerDisplay.style.display = 'inline';
         //Have to send winner command with parameter of the specific room we are in and which user won
-        //socket.emit('winner', '');
+        socket.emit('winner', '');
       }
 
       var e = document.getElementById("yourText");
